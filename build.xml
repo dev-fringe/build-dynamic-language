@@ -1,0 +1,15 @@
+<project name="build-dynamic-language" >
+	<property file="build.properties" />
+	<property name="lib.dir" value="lib"/>
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+	<taskdef name="dynamic" classname="org.codehaus.groovy.ant.Groovy" classpathref="classpath"/>
+	<dynamic>
+		import org.jasypt.encryption.pbe.StandardPBEStringEncryptor
+		def pes = new StandardPBEStringEncryptor()
+ 		pes.setPassword("jasypt")
+		properties['password'] = pes.decrypt(properties['password'])
+	</dynamic>
+	<echo message="${password}" />
+</project>
